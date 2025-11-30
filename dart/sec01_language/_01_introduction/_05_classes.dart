@@ -9,31 +9,45 @@ import 'utils.dart';
 /// Dart permite implementar todos los concentps de la orientación a
 /// objetos.
 void main() {
-  // create instance
-  final newSpace = SpaceCraft("Apolo", DateTime.now());
-  newSpace.describe();
+  // create instances
+  final voyager = _SpaceCraft("Apolo", DateTime.now());
+  voyager.describe();
+
+  final voyager3 = _SpaceCraft.unlaunched('Voyager III');
+  voyager3.describe();
 
   // end application
   systemPause();
 }
 
-/// Clase que ejemplifica el uso de clases, propiedade y métodos.
-class SpaceCraft {
+/// Clase que ejemplifica el uso de clases, propiedade y métodos. Si
+/// inicia el nombre con un guión bajo, esta solo estará disponible
+/// dentro del script que la define.
+class _SpaceCraft {
   // properties
   String name;
-  DateTime? launchDay;
+  DateTime? launchDate;
+
+  // getter
+  int? get launchYear => launchDate?.year;
 
   // constructor
-  SpaceCraft(this.name, this.launchDay) {
+  _SpaceCraft(this.name, this.launchDate) {
     // Initialization goes here
     // ...
   }
 
   // Named constructor, use contructir defined before
-  SpaceCraft.unlaunched(String name) : this(name, null);
+  _SpaceCraft.unlaunched(String name) : this(name, null);
 
   /// Show instance description
   void describe() {
     print('Spacecraft: $name');
+    if (launchDate != null) {
+      int years = DateTime.now().difference(launchDate!).inDays ~/ 365;
+      print('Launched: $launchYear ($years years ago)');
+    } else {
+      print('Unlauched');
+    }
   }
 }
